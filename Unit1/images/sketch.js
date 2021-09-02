@@ -9,10 +9,15 @@ function setup() {
 }
 
 function draw() {
+
   background('yellow');
+
+
 
   image(flower,width/2,height/2,100,100);
   image(minion,width/2,height/2-120,100,100);
     image(tiger,width/2,height/2+120,100,100);
+
+
 
 }
