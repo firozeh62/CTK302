@@ -1,4 +1,4 @@
-var font1;
+let font1;
 
 function setup() {
   createCanvas(500, 500);
@@ -8,7 +8,7 @@ function setup() {
 function draw() {
   background("yellow");
   textFont(font1);
-  textSize(24);
+  textSize(50);
   text("hello world",100,100);
 
 }
