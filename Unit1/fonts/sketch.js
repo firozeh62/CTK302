@@ -9,6 +9,6 @@ function draw() {
   background("yellow");
   textFont(font1);
   textSize(50);
-  text("hello world",100,100);
+  text("hello world",200,200);
 
 }
