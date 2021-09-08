@@ -27,5 +27,5 @@ function mouseRleased() {
 }
 
 function touchStarted() {
-  getAudioContext().resume();}
+  getAudioContext().resume();
 }
