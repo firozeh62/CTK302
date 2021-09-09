@@ -112,8 +112,8 @@ function draw() {
     ellipse(415,230,15,20);
 
 
-  fill("light blue");
-  text("This is Suzy, she is so cute but she can easily get annoyed when her toys are broken. She is able to make toys out of used products. to make it clear, you can give her used objects and see how she makes the creative toy out of them.", 0, 60);
+  fill("black");
+  text(" This is Suzy, she is so cute but she can easily get annoyed \n when her toys are broken. She is able to make toys out of used products.\n to make it clear, you can give her used objects and see how she makes the creative toy out of them.", 0, 60);
 
 
   }
@@ -125,7 +125,7 @@ function draw() {
   fill(0);
   text(mouseX + ", " + mouseY, 40, 40);
 
- 
+
 
 
 
