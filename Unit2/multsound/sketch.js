@@ -1,7 +1,7 @@
 let state = 0;
 let song1, song2, song3;
 
-function Preload() {
+function preload() {
   song1 = loadSound("assets/bensound.mp3");
   song2 = loadSound("assets/bensound1.mp3");
   song3 = loadSound("assets/buddy.mp3");
@@ -68,4 +68,9 @@ function mouseReleased() {
   if (state > 5) state = 0;
 
 
+}
+
+
+function touchStarted() {
+  getAudioContext().resume();
 }
