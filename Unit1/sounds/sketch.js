@@ -17,7 +17,7 @@ function draw() {
 
 }
 
-function mouseRleased() {
+function mouseReleased() {
   if (song1.isPlaying()) {
     song1.pause();
   } else {
