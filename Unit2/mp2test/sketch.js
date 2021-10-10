@@ -3,6 +3,7 @@ let timer = 0;
 let mic;
 let vol;
 let cake;
+let song1, song2, song3;
 
 function setup() {
   createCanvas(500, 500);
