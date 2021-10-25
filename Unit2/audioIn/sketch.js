@@ -1,6 +1,7 @@
 var mic;
 
 var vol;
+var audio;
 
 var c = 'green';
 
@@ -11,6 +12,7 @@ let x = 0 ;
 function setup() {
 
   createCanvas(400, 400);
+    audio = loadImage("assets/audio.png");
 
 
 
@@ -59,8 +61,8 @@ function draw() {
   text("Click the screen first to give\npermission for mic input.\nMy volume is " + vol, 10, 60);
 
 
-
-  rect(vol * 100, 100, 50, 50);
+fill('purple');
+  circle(vol * 100, 100, 50, 50);
 
 
 
@@ -70,13 +72,14 @@ function draw() {
 
 x = map(vol, 0, .2, 0, width) ;
 
-  rect(x, 200, 50, 50);
+fill('orange')
+  circle(x, 200, 50, 50);
 
 
 
 }
 
- 
+
 
 
 
