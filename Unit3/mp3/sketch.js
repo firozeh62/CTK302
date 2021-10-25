@@ -6,7 +6,9 @@ var background3;
 var cat;
 var gameover;
 var mouse;
+var win;
 var start;
+var catsound;
 
 let frogPos;
 
@@ -18,6 +20,8 @@ function setup() {
   gameover = loadImage('assets/gameover.jpg');
   mouse = loadImage('assets/mouse.png');
   start = loadImage('assets/start.jpg');
+win = loadImage('assets/win.jpg');
+  catsound = loadSound('assets/catsound.wav') ;
 
 
 
@@ -59,10 +63,9 @@ function draw() {
 
     case 2: // winning state
 
-      background("green");
-      fill("white");
-      textSize(48);
-      text("you win", 100, 100);
+    background("blue");
+    image(win, width / 2, height / 2);
+
       break;
 
 
@@ -109,6 +112,8 @@ function game() {
 
     if (cars[i].pos.dist(frogPos) < 30) {
       cars.splice(i, 1); //this takes out a car
+
+       catsound.play() ;
     }
   }
 
