@@ -1,183 +1,169 @@
-let cars = [];
-let maxCars = 30;
-let state = 0;
-let timer = 0;
-var background3;
+// variables needed for gyroscope
+var beta, gamma; // orientation data
+var x = 0; // acceleration data
+var y = 0;
+var z = 0;
+var xPosition = 0;
+var yPosition = 0;
 var cat;
-var gameover;
 var mouse;
-var win;
-var start;
-var catsound;
 
-let frogPos;
+// var bunnyImage;
+var cars = [];
+var frogPos;
+
 
 function setup() {
+    cat = loadImage('assets/cat.png');
+    mouse = loadImage('assets/mouse.png');
+
   createCanvas(windowWidth, windowHeight);
 
-  background3 = loadImage('assets/background3.jpg');
-  cat = loadImage('assets/cat.png');
-  gameover = loadImage('assets/gameover.jpg');
-  mouse = loadImage('assets/mouse.png');
-  start = loadImage('assets/start.jpg');
-win = loadImage('assets/win.jpg');
-  catsound = loadSound('assets/catsound.wav') ;
+  // initialize accelerometer variables
+  alpha = 0;
+  beta = 0;
+  gamma = 0;
 
 
-
-  // Spawn many object
-
-  for (let i = 0; i < 5; i++) {
+  // spawn a bunch of cars
+  for (var i = 0; i < 40; i++) {
     cars.push(new Car());
   }
 
+  // initialize the frog's position
+  frogPos = createVector(width / 2, height - 80);
 
-
-  //initialize frog position
-  frogPos = createVector(width / 2, height - 130);
-  rectMode(CENTER);
-  ellipseMode(CENTER);
+  // load any images you need
+  //bunnyImage = loadImage("assets/bunny.jpg");
   imageMode(CENTER);
+  rectMode(CENTER);
+  noStroke();
 }
 
 function draw() {
-  switch (state) {
+
+  background('#c6f5ff'); // light blue
+
+  // the map command !!!!
+  // takes your variable and maps it from range 1 to range 2
+  // map(yourVar, range1_x, range1_y, range2_x, range2_y) ;
+  xPosition = map(gamma, -18, 18, 0, width);
+  yPosition = map(beta, 25, 45, 0, height);
 
 
-    case 0: //welcom
+  // move the frog around the screen
+  push(); // before you use translate, rotate, or scale commands, push and then pop after
+  translate(xPosition, yPosition); // move everything over by x, y
+  //  rotate(radians(alpha)); // using alpha in here so it doesn't feel bad
 
-      background("black");
-      image(start, width / 2, height / 2);
-
-
-      break;
-
-    case 1: // game state
-      game();
-      timer++;
-      if (timer > 15 * 60) {
-        state = 3;
-        timer = 0;
-      }
-      break;
-
-    case 2: // winning state
-
-    background("blue");
-    image(win, width / 2, height / 2);
-
-      break;
+  // draw the FROG
+   image(cat, 0, 0, 100, 100);
+  // fill('green');
+  // ellipse(0, 0, 80, 80);
+  pop();
 
 
-    case 3:
+  // update the frog's position using the accelerometer data
+  frogPos.x = xPosition;
+  frogPos.y = yPosition;
 
-      background("blue");
-      image(gameover, width / 2, height / 2);
-
-      break; // losing state
-
-  }
-
-}
-
-
-function mouseReleased() {
-  switch (state) {
-    case 0:
-      state = 1;
-      break;
-
-    case 2: // the win state
-      resetTheGame();
-      state = 0;
-      break;
-
-    case 3: // the lose state
-      resetTheGame();
-      state = 0;
-      break;
-
-  }
-}
-
-
-
-function game() {
-  image(background3, width / 2, height / 2);
-  //you would put background image here
-
-  for (let i = 0; i < cars.length; i++) {
+  // iterate through the car loop to move them and see if we need to delete cars
+  for (var i = 0; i < cars.length; i++) {
     cars[i].display();
-    cars[i].move();
-
-    if (cars[i].pos.dist(frogPos) < 30) {
-      cars.splice(i, 1); //this takes out a car
-
-       catsound.play() ;
+    cars[i].drive();
+    if (cars[i].pos.dist(frogPos) < 50) {
+      cars.splice(i, 1);
     }
   }
 
-  if (cars.length == 0) {
-    state = 2;
-  }
+  // MORE DECORATIONS - write that pretty ATK type on top.
+  fill('white');
+  textSize(40);
+  textAlign(CENTER);
+  text("your words or image here!", width / 2, 600, windowWidth - 200, windowHeight - 200);
 
-  //print out how many cars are left
-  fill("white");
-  textSize(16);
-  text("cars left:" + cars.length, 20, 30);
 
-  //make frog
+  // Debugging information -- take this out when you're ready for production!
+  // Just a bunch of text commands to display data coming in from addEventListeners
+  textAlign(LEFT);
+  textSize(20);
+  fill('black');
+  text("orientation data:", 25, 25);
+  textSize(15);
+  text("alpha: " + alpha, 25, 50);
+  text("beta: " + beta, 25, 70);
+  text("gamma: " + gamma, 25, 90);
+  textSize(20);
+  text("acceleration data:", 25, 125);
+  textSize(15);
+  text("x = " + x, 25, 150); // .toFixed means just show (x) decimal places
+  text("y = " + y, 25, 170);
+  text("z = " + z, 25, 190);
 
-  fill("green");
-  image(cat, frogPos.x, frogPos.y, 150, 150);
-  checkForKeys();
+
 }
 
-function resetTheGame() {
-  timer = 0;
-  cars = [];
-
-  // Spawn many object
-
-  for (let i = 0; i < 30; i++) {
+function deviceShaken() {
+  // re-spawn cars
+  cars = []; // clear the array first
+  for (var i = 0; i < 40; i++) {
     cars.push(new Car());
   }
-
 }
 
 
-function checkForKeys() {
-  if (keyIsDown(LEFT_ARROW)) frogPos.x -= 5;
-  if (keyIsDown(RIGHT_ARROW)) frogPos.x += 5;
-  if (keyIsDown(UP_ARROW)) frogPos.y -= 5;
-  if (keyIsDown(DOWN_ARROW)) frogPos.y += 5;
+// HERE'S THE STUFF YOU NEED FOR READING IN DATA!!!
 
-}
+// Read in accelerometer data
+window.addEventListener('deviceorientation', function(e) {
+  alpha = e.alpha;
+  beta = e.beta;
+  gamma = e.gamma;
+});
 
-// Car class
-class Car {
-  constructor() {
-    this.pos = createVector(random(width), random(height - 120));
-    this.vel = createVector(random(-5, 5), random(-5, 5));
-    this.cor = color(0, random(20, 40), random(50, 100), random(30));
-    this.size = random(90, 60);
-    this.maxTimer = random(10, 50);
-  }
+
+// accelerometer Data
+window.addEventListener('devicemotion', function(e) {
+  // get accelerometer values
+  x = e.acceleration.x;
+  y = e.acceleration.y;
+  z = e.acceleration.z;
+});
+
+
+
+
+
+// car class!!
+function Car() {
+  // attributes
+  this.pos = createVector(100, 100);
+  this.vel = createVector(random(-5, 5), random(-5, 5));
+  this.r = random(255);
+  this.g = random(255);
+  this.b = random(255);
+  this.a = random(255);  // alpha opacity value for fill!
+
 
   // methods
+  this.display = function() {
 
-  display() {
-    fill(this.cor);
-    // rect(this.pos.x, this.pos.y, 75, 25);
-    textSize(this.size);
+    // maybe use an image here instead!
     image(mouse, this.pos.x, this.pos.y, 100, 100);
+    // ellipse(this.pos.x - 50, this.pos.y, 50, 50);
+    // ellipse(this.pos.x + 50, this.pos.y, 50, 50);
+    // rect(this.pos.x + 17, this.pos.y - 30, 80, 60) ;
+
   }
 
-  move() {
+  this.drive = function() {
     this.pos.add(this.vel);
+
     if (this.pos.x > width) this.pos.x = 0;
     if (this.pos.x < 0) this.pos.x = width;
     if (this.pos.y > height) this.pos.y = 0;
     if (this.pos.y < 0) this.pos.y = height;
+
   }
+
 }
