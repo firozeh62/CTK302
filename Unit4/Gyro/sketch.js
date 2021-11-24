@@ -60,7 +60,11 @@ function draw() {
   // Text that makes CTK type in the background
   fill('white');
   noStroke();
+<<<<<<< HEAD
   textSize(200);
+=======
+  textSize(300);
+>>>>>>> 9d94d4eb5807e934b6cde9d520450f6ef8adedbf
   textAlign(CENTER);
   text("Circus", width / 2, height / 2);
 
