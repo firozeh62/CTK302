@@ -86,7 +86,7 @@ function draw() {
   // Debugging information -- take this out when you're ready for production!
   // Just a bunch of text commands to display data coming in from addEventListeners
   textAlign(LEFT);
-  textSize(20);
+  textSize(30);
   fill('black');
   text("orientation data:", 25, 25);
   textSize(15);
