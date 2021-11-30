@@ -1,7 +1,9 @@
 let numberOfTouches ;
+var jungle;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+jungle = loadImage('assets/jungle.jpg');
 }
 
 function draw() {
@@ -16,6 +18,7 @@ function draw() {
 
       case 1:
        text("it's kind of lonely here", 5, 22) ;
+       image(jungle, width / 2, height / 2);
       // put a picture here
       break ;
 
