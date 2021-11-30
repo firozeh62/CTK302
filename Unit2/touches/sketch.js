@@ -13,6 +13,7 @@ function draw() {
 
   switch(numberOfTouches) {
     case 0:
+        background("yellow");
       text("no one is touching the screen", 5, 22) ;
       break ;
 
